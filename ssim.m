@@ -95,9 +95,9 @@ if (nargin == 2)
 	   ssim_map = -Inf;
       return
    end
-   window = fspecial('gaussian', 11, 1.5);	% H = fspecial(¡®gaussian¡¯,hsize,sigma) 
-                                               % µ±type = ¡®gaussian¡¯Ê±¾ÍÊÇ¸ßË¹ÂË²¨Æ÷ÁË£¬sizeÖ¸¶¨ÂË²¨Æ÷µÄ´óĞ¡,Ä¬ÈÏÖµÊÇ3¡Á3£¬sigmaÖ¸¶¨ÂË²¨Æ÷µÄ±ê×¼²î£¬Ä¬ÈÏÖµÊÇ0.5¡£
-                                               % ÒªÉî¿ÌÀí½âµÄÊÇ£¬sigma¾ö¶¨ÁË¸ßË¹Ä£ºıºËµÄÄ£ºı³Ì¶È
+   window = fspecial('gaussian', 11, 1.5);	% H = fspecial(â€˜gaussianâ€™,hsize,sigma) 
+                                               % å½“type = â€˜gaussianâ€™æ—¶å°±æ˜¯é«˜æ–¯æ»¤æ³¢å™¨äº†ï¼ŒsizeæŒ‡å®šæ»¤æ³¢å™¨çš„å¤§å°,é»˜è®¤å€¼æ˜¯3Ã—3ï¼ŒsigmaæŒ‡å®šæ»¤æ³¢å™¨çš„æ ‡å‡†å·®ï¼Œé»˜è®¤å€¼æ˜¯0.5ã€‚
+                                               % è¦æ·±åˆ»ç†è§£çš„æ˜¯ï¼Œsigmaå†³å®šäº†é«˜æ–¯æ¨¡ç³Šæ ¸çš„æ¨¡ç³Šç¨‹åº¦
    K(1) = 0.01;					% default settings
    K(2) = 0.03;					%
    L = 255;                                     %
@@ -120,19 +120,19 @@ if (nargin == 3)
    else
 	   mssim = -Inf;
    	ssim_map = -Inf;
-	   return; % Ç¿ÖÆ½áÊø¸Ãº¯Êı
+	   return; % å¼ºåˆ¶ç»“æŸè¯¥å‡½æ•°
    end
 end
 
 if (nargin == 4)
    [H W] = size(window);
-   if ((H*W) < 4 || (H > M) || (W > N)) %ÅĞ¶Ï¸ßË¹ÂË²¨ºËÊÇ²»ÊÇ1*1,ÊÇ²»ÊÇÕı·½ĞÎ
+   if ((H*W) < 4 || (H > M) || (W > N)) %åˆ¤æ–­é«˜æ–¯æ»¤æ³¢æ ¸æ˜¯ä¸æ˜¯1*1,æ˜¯ä¸æ˜¯æ­£æ–¹å½¢
 	   mssim = -Inf;
 	   ssim_map = -Inf;
       return
    end
    L = 255;
-   if (length(K) == 2)    % ÅĞ¶ÏÊÇ²»ÊÇ¾ØÕóÀïÁ½¸öÔªËØ
+   if (length(K) == 2)    % åˆ¤æ–­æ˜¯ä¸æ˜¯çŸ©é˜µé‡Œä¸¤ä¸ªå…ƒç´ 
       if (K(1) < 0 || K(2) < 0)
 		   mssim = -Inf;
    		ssim_map = -Inf;
@@ -170,31 +170,31 @@ img1 = double(img1);
 img2 = double(img2);
 
 % automatic downsampling
-f = max(1,round(min(M,N)/256)); %ÔÚmatlabÖĞroundÒ²ÊÇÒ»¸öËÄÉáÎåÈëº¯Êı£¬È¡ÕûÊı
+f = max(1,round(min(M,N)/256)); %åœ¨matlabä¸­roundä¹Ÿæ˜¯ä¸€ä¸ªå››èˆäº”å…¥å‡½æ•°ï¼Œå–æ•´æ•°
 %downsampling by f
 %use a simple low-pass filter 
 if(f>1)
     lpf = ones(f,f);
     lpf = lpf/sum(lpf(:));
-    img1 = imfilter(img1,lpf,'symmetric','same'); % ¶ÔÈÎÒâÀàĞÍÊı×é»ò¶àÎ¬Í¼Ïñ½øĞĞ¾ùÖµÂË²¨  Çó³öµÄÏñËØµãÒÑ¾­ÊÇ¾ùÖµ
+    img1 = imfilter(img1,lpf,'symmetric','same'); % å¯¹ä»»æ„ç±»å‹æ•°ç»„æˆ–å¤šç»´å›¾åƒè¿›è¡Œå‡å€¼æ»¤æ³¢  æ±‚å‡ºçš„åƒç´ ç‚¹å·²ç»æ˜¯å‡å€¼
     img2 = imfilter(img2,lpf,'symmetric','same');
 
-    img1 = img1(1:f:end,1:f:end); % ½«Ò»Õû¸±Í¼ÏñÇĞ³ÉÈô¸É¸öĞ¡Í¼Ïñ ·Ö±ğ½øĞĞÇóÖµ
+    img1 = img1(1:f:end,1:f:end); % å°†ä¸€æ•´å‰¯å›¾åƒåˆ‡æˆè‹¥å¹²ä¸ªå°å›¾åƒ åˆ†åˆ«è¿›è¡Œæ±‚å€¼
     img2 = img2(1:f:end,1:f:end);
 end
 
 C1 = (K(1)*L)^2;
-C2 = (K(2)*L)^2;
+C2 = (K(2)*L)^2; %å…ˆåšé«˜æ–¯æ»¤æ³¢ï¼Œè¿›è¡Œç»“æ„åŒ–ï¼Œå†åšå‡å€¼ï¼Œç­‰ä»·äºç›´æ¥åšé«˜æ–¯æ»¤æ³¢ï¼Œå› ä¸ºä»–æ±‚çš„ä¹Ÿæ˜¯å‡å€¼
 window = window/sum(sum(window));
-% ¶Ô ¾Ö²¿ĞÔ¿Õ¼ä½øĞĞÇóssim£¬ÒòÎªÈËÑÛ¾ÍÊÇ¾Ö²¿ĞÔÅĞ¶Ï ¡¢ÏÂÃæµÄ¶¼ÊÇ¾ØÕóÏàµÈ ²ÉÓÃ»¬¶¯´°¿Ú£¬¶ÔÃ¿¸ö´°¿Ú½øĞĞÇóssimÖµ£¬×îºóÇóÆ½¾ùÖµ
-mu1   = filter2(window, img1, 'valid'); % ¼ÆËãÒ»¸ö¸ßË¹ÂË²¨µÄ¾ùÖµ  ¼òµ¥µÄ¼Ó´°»áÊ¹Ó³Éä¾ØÕó³öÏÖ²»Á¼µÄ¡°·Ö¿é¡±Ğ§Ó¦¡£Îª½â¾öÕâÎÊÌâ£¬ÎÒÃÇÊ¹ÓÃ11*11µÄ¶Ô³Æ¸ßË¹¼ÓÈ¨º¯Êı
-mu2   = filter2(window, img2, 'valid');% Ö®ËùÒÔ½øĞĞÂË²¨µÄÔ­ÒòÊÇÒòÎªËûÊÇ½á¹¹ĞÔ±È½Ï£¬Ö±½ÓÂË²¨ ÕûÌå»¯£¬½øĞĞ±È½Ï
+% å¯¹ å±€éƒ¨æ€§ç©ºé—´è¿›è¡Œæ±‚ssimï¼Œå› ä¸ºäººçœ¼å°±æ˜¯å±€éƒ¨æ€§åˆ¤æ–­ ã€ä¸‹é¢çš„éƒ½æ˜¯çŸ©é˜µç›¸ç­‰ é‡‡ç”¨æ»‘åŠ¨çª—å£ï¼Œå¯¹æ¯ä¸ªçª—å£è¿›è¡Œæ±‚ssimå€¼ï¼Œæœ€åæ±‚å¹³å‡å€¼
+mu1   = filter2(window, img1, 'valid'); % è®¡ç®—ä¸€ä¸ªé«˜æ–¯æ»¤æ³¢çš„å‡å€¼  ç®€å•çš„åŠ çª—ä¼šä½¿æ˜ å°„çŸ©é˜µå‡ºç°ä¸è‰¯çš„â€œåˆ†å—â€æ•ˆåº”ã€‚ä¸ºè§£å†³è¿™é—®é¢˜ï¼Œæˆ‘ä»¬ä½¿ç”¨11*11çš„å¯¹ç§°é«˜æ–¯åŠ æƒå‡½æ•°
+mu2   = filter2(window, img2, 'valid');% ä¹‹æ‰€ä»¥è¿›è¡Œæ»¤æ³¢çš„åŸå› æ˜¯å› ä¸ºä»–æ˜¯ç»“æ„æ€§æ¯”è¾ƒï¼Œç›´æ¥æ»¤æ³¢ æ•´ä½“åŒ–ï¼Œè¿›è¡Œæ¯”è¾ƒ
 mu1_sq = mu1.*mu1;
 mu2_sq = mu2.*mu2;
 mu1_mu2 = mu1.*mu2;
-sigma1_sq = filter2(window, img1.*img1, 'valid') - mu1_sq; % ·½²î=E(X^2) - (E(X))^2 
+sigma1_sq = filter2(window, img1.*img1, 'valid') - mu1_sq; % æ–¹å·®=E(X^2) - (E(X))^2 
 sigma2_sq = filter2(window, img2.*img2, 'valid') - mu2_sq;
-sigma12 = filter2(window, img1.*img2, 'valid') - mu1_mu2; % Ğ­·½²î=E£¨xy£©-E(x)E(y)
+sigma12 = filter2(window, img1.*img2, 'valid') - mu1_mu2; % åæ–¹å·®=Eï¼ˆxyï¼‰-E(x)E(y)
 
 if (C1 > 0 && C2 > 0)
    ssim_map = ((2*mu1_mu2 + C1).*(2*sigma12 + C2))./((mu1_sq + mu2_sq + C1).*(sigma1_sq + sigma2_sq + C2));
@@ -210,6 +210,6 @@ else
    ssim_map(index) = numerator1(index)./denominator1(index);
 end
 
-mssim = mean2(ssim_map); % ¶Ô¸÷¸öÎ»ÖÃÉÏµÄssimµãÇóÒ»¸ö¾ùÖµ
+mssim = mean2(ssim_map); % å¯¹å„ä¸ªä½ç½®ä¸Šçš„ssimç‚¹æ±‚ä¸€ä¸ªå‡å€¼
 
 return
