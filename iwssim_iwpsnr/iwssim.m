@@ -94,7 +94,7 @@ for s = 1:Nsc
     se = se_map{s}; % 计算同一层 两个子带的差异
     cs = cs_map{s};% 得到每层的c*s
     if (s==Nsc)
-        cs = cs.*l_map;
+        cs = cs.*l_map; 
     end
     if (iw_flag)
         if (s<Nsc)
@@ -104,7 +104,7 @@ for s = 1:Nsc
             iw = ones(size(cs));
         end
         se = se(bound+1:end-bound, bound+1:end-bound);  % end是代表最后一个元素的位置      
-        wmcs(s) = sum(sum(cs.*iw))/sum(sum(iw)); % 每层乘上对应的权重值
+        wmcs(s) = sum(sum(cs.*iw))/sum(sum(iw)); % 每层乘上对应的权重值 因为最后一层不包括 所以就只需要4层
         wmse(s) = sum(sum(se.*iw))/sum(sum(iw));
     else
         wmcs(s) = mean2(cs);
