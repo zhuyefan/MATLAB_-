@@ -35,12 +35,12 @@ if (~exist('L'))
 end
 
 if (~exist('weight'))
-   weight = [0.0448 0.2856 0.3001 0.2363 0.1333]; % default from [Wang et al, IEEE-Asilomar 2003] Ä¬ÈÏ²ÎÊı
+   weight = [0.0448 0.2856 0.3001 0.2363 0.1333]; % default from [Wang et al, IEEE-Asilomar 2003] é»˜è®¤å‚æ•°
 end
 
 if (exist('win')) 
     winSz = size(win); 
-    if (winSz(1) ~= winSz(2)) % ±£Ö¤»¬¶¯´°¿ÚÊÇÒ»¸öÕı·½ĞÎ
+    if (winSz(1) ~= winSz(2)) % ä¿è¯æ»‘åŠ¨çª—å£æ˜¯ä¸€ä¸ªæ­£æ–¹å½¢
         iwssim = -Inf;
         iwmse = -Inf;
         iwpsnr = -Inf;
@@ -56,43 +56,43 @@ else
 end
 
 if (~exist('blk_size'))
-   blk_size = 3; % spatial neighborhood size ¿Õ¼äÁìÓò´óĞ¡
+   blk_size = 3; % spatial neighborhood size ç©ºé—´é¢†åŸŸå¤§å°
 end
 
 if (~exist('parent'))
-   parent = 1; % include parent neighbor °üÀ¨¸¸Ä¸µÄÁÚ¾Ó
+   parent = 1; % include parent neighbor åŒ…æ‹¬çˆ¶æ¯çš„é‚»å±…
 end
 
 if (~exist('sigma_nsq'))
-   sigma_nsq = 0.4; % default from [Sheikh & Bovik, IEEE-TIP 2006] Ä¬ÈÏ¸ÃÂÛÎÄµÄ²ÎÊı
+   sigma_nsq = 0.4; % default from [Sheikh & Bovik, IEEE-TIP 2006] é»˜è®¤è¯¥è®ºæ–‡çš„å‚æ•°
 end
 
 blSzX = blk_size; 
 blSzY = blk_size;
-Nsc = min(5,Nsc); % Îª5
+Nsc = min(5,Nsc); % ä¸º5
 weight = weight(1:Nsc);
-weight = weight/sum(weight);%.^2ÊÇ¾ØÕóÖĞµÄÃ¿¸öÔªËØ¶¼ÇóÆ½·½£¬^2ÊÇÇó¾ØÕó£¨´Ë¾ØÕóÎª·½Õó£©µÄÆ½·½¡£
-if (min(size(oimg)) < win_size*(2^(Nsc-1))) % ÅĞ¶ÏÔ­Ê¼Í¼ÏñÒª´óÓÚ 88
+weight = weight/sum(weight);%.^2æ˜¯çŸ©é˜µä¸­çš„æ¯ä¸ªå…ƒç´ éƒ½æ±‚å¹³æ–¹ï¼Œ^2æ˜¯æ±‚çŸ©é˜µï¼ˆæ­¤çŸ©é˜µä¸ºæ–¹é˜µï¼‰çš„å¹³æ–¹ã€‚
+if (min(size(oimg)) < win_size*(2^(Nsc-1))) % åˆ¤æ–­åŸå§‹å›¾åƒè¦å¤§äº 88
     iwssim = -Inf;
     iwmse = -Inf;
     iwpsnr = -Inf;
-    disp(['Image size too small for ' num2str(Nsc) ' scale IW-SSIM evaluation.']); % disp Êä³ö
+    disp(['Image size too small for ' num2str(Nsc) ' scale IW-SSIM evaluation.']); % disp è¾“å‡º
     return;
 end
-bound = ceil((win_size-1)/2); %ceilº¯Êı£º³¯ÕıÎŞÇî´ó·½ÏòÈ¡Õû ÏòÉÏÈ¡Õû
-bound1 = bound - floor((blSzX-1)/2); % ÏòÏÂÈ¡Õû
+bound = ceil((win_size-1)/2); %ceilå‡½æ•°ï¼šæœæ­£æ— ç©·å¤§æ–¹å‘å–æ•´ å‘ä¸Šå–æ•´
+bound1 = bound - floor((blSzX-1)/2); % å‘ä¸‹å–æ•´
 
-[pyro,pind]= buildLpyr(double(oimg),Nsc); %ÔÚ¾ØÕó(»òÏòÁ¿)IMÉÏ¹¹ÔìÒ»¸öÀ­ÆÕÀ­Ë¹½ğ×ÖËş¡£ Ö¸¶¨²ãÊı
-[pyrd,pind]= buildLpyr(double(img),Nsc);%ÔÚ¾ØÕó(»òÏòÁ¿)IMÉÏ¹¹ÔìÒ»¸öÀ­ÆÕÀ­Ë¹½ğ×ÖËş¡£
-% ÔËÓÃµ½ÁË¸ÃÎÄ¼ş¼ĞÏÂµÄÁíÒ»¸öº¯Êı 
-[cs_map l_map se_map] = scale_quality_maps(pyro,pyrd,pind,Nsc,K,L,win); % µÃµ½ÁËÃ¿²ãµÄms-ssimÏµÊı ÕâÀïµÄ²ã²¢²»ÊÇ¼òµ¥µÄms-ssim²ã ¶øÊÇ ½ğ×ÖËşÖĞµÄ²ã£¬±£Ö¤ÁËËõĞ¡µÄ Ê±ºòµÄÍ¼Æ¬µÄ ÇåÎú¶È
+[pyro,pind]= buildLpyr(double(oimg),Nsc); %åœ¨çŸ©é˜µ(æˆ–å‘é‡)IMä¸Šæ„é€ ä¸€ä¸ªæ‹‰æ™®æ‹‰æ–¯é‡‘å­—å¡”ã€‚ æŒ‡å®šå±‚æ•°
+[pyrd,pind]= buildLpyr(double(img),Nsc);%åœ¨çŸ©é˜µ(æˆ–å‘é‡)IMä¸Šæ„é€ ä¸€ä¸ªæ‹‰æ™®æ‹‰æ–¯é‡‘å­—å¡”ã€‚
+% è¿ç”¨åˆ°äº†è¯¥æ–‡ä»¶å¤¹ä¸‹çš„å¦ä¸€ä¸ªå‡½æ•° 
+[cs_map l_map se_map] = scale_quality_maps(pyro,pyrd,pind,Nsc,K,L,win); % å¾—åˆ°äº†æ¯å±‚çš„ms-ssimç³»æ•° è¿™é‡Œçš„å±‚å¹¶ä¸æ˜¯ç®€å•çš„ms-ssimå±‚ è€Œæ˜¯ é‡‘å­—å¡”ä¸­çš„å±‚ï¼Œä¿è¯äº†ç¼©å°çš„ æ—¶å€™çš„å›¾ç‰‡çš„ æ¸…æ™°åº¦
 if (iw_flag)
-    iw_map = info_content_weight_map(pyro,pyrd,pind,Nsc,parent,blSzX,blSzY,sigma_nsq); % %¼ÆËã³ß¶È1µ½nssc -1µÄĞÅÏ¢ÄÚÈİÈ¨ÖØÍ¼
+    iw_map = info_content_weight_map(pyro,pyrd,pind,Nsc,parent,blSzX,blSzY,sigma_nsq); % %è®¡ç®—å°ºåº¦1åˆ°nssc -1çš„ä¿¡æ¯å†…å®¹æƒé‡å›¾
 end
 
 for s = 1:Nsc
-    se = se_map{s}; % ¼ÆËãÍ¬Ò»²ã Á½¸ö×Ó´øµÄ²îÒì
-    cs = cs_map{s};% µÃµ½Ã¿²ãµÄc*s
+    se = se_map{s}; % è®¡ç®—åŒä¸€å±‚ ä¸¤ä¸ªå­å¸¦çš„å·®å¼‚
+    cs = cs_map{s};% å¾—åˆ°æ¯å±‚çš„c*s
     if (s==Nsc)
         cs = cs.*l_map;
     end
@@ -103,8 +103,8 @@ for s = 1:Nsc
         else
             iw = ones(size(cs));
         end
-        se = se(bound+1:end-bound, bound+1:end-bound);        
-        wmcs(s) = sum(sum(cs.*iw))/sum(sum(iw)); % Ã¿²ã³ËÉÏ¶ÔÓ¦µÄÈ¨ÖØÖµ
+        se = se(bound+1:end-bound, bound+1:end-bound);  % endæ˜¯ä»£è¡¨æœ€åä¸€ä¸ªå…ƒç´ çš„ä½ç½®      
+        wmcs(s) = sum(sum(cs.*iw))/sum(sum(iw)); % æ¯å±‚ä¹˜ä¸Šå¯¹åº”çš„æƒé‡å€¼
         wmse(s) = sum(sum(se.*iw))/sum(sum(iw));
     else
         wmcs(s) = mean2(cs);
@@ -112,6 +112,6 @@ for s = 1:Nsc
     end
 end
 
-iwmse = prod(wmse(1:Nsc).^weight(1:Nsc)); % ĞÅÏ¢È¨ÖØµÄmseÖµ
-iwpsnr = min(10*log10(255^2/iwmse), MAX_PSNR);% psnrµÄĞÅÏ¢È¨ÖØ
-iwssim = prod(wmcs(1:Nsc).^weight(1:Nsc));% ssimµÄĞÅÏ¢È¨ÖØ
+iwmse = prod(wmse(1:Nsc).^weight(1:Nsc)); % ä¿¡æ¯æƒé‡çš„mseå€¼
+iwpsnr = min(10*log10(255^2/iwmse), MAX_PSNR);% psnrçš„ä¿¡æ¯æƒé‡
+iwssim = prod(wmcs(1:Nsc).^weight(1:Nsc));% ssimçš„ä¿¡æ¯æƒé‡
