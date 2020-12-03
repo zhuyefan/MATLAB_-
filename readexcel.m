@@ -1,3 +1,4 @@
+% 进行批处理
 [a,str] = xlsread('1.xlsx','A2:A15')
 [a,str1] = xlsread('1.xlsx','B62:B75')
 result=[1;1;1;1;1;1;1;1;1;1;1;1;1;1]
